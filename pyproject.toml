@@ -4,4 +4,9 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.3",
+]
+
+# uv add "pandas" "openpyxl"
