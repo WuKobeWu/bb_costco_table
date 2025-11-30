@@ -36,7 +36,8 @@ everything copied, press enter
 4. expect output
 F&S Daily OOS Recap_Taiwan .xlsx        -> result, plz check if ok
 F&S Daily OOS Recap_Taiwan _orig.xlsx   -> saved for safety, can del if above ok
-plz write comment [here]([url](https://docs.google.com/document/d/11MLShYlC4Ecna0u2Pyy2pFiZA3XZWi4XNtLadAvad2I/edit?usp=drive_link))
+plz write comment [here](https://docs.google.com/document/d/11MLShYlC4Ecna0u2Pyy2pFiZA3XZWi4XNtLadAvad2I/edit?usp=drive_link)
+
 
 
 
