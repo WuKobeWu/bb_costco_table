@@ -6,6 +6,7 @@ mkdir git
 cd git
 git clone https://github.com/WuKobeWu/bb_costco_table.git
 cd bb_costco_table
+git checkout mvp
 ```
 
 2. env
@@ -32,3 +33,4 @@ uv run python src/convert.py --input_path ${input_path} --output_path ${output_p
 F&S Daily OOS Recap_Taiwan .xlsx        -> result, plz check if ok
 F&S Daily OOS Recap_Taiwan _orig.xlsx   -> saved for safety, can del if above ok
 plz write comment [here]([url](https://docs.google.com/document/d/11MLShYlC4Ecna0u2Pyy2pFiZA3XZWi4XNtLadAvad2I/edit?usp=drive_link))
+
