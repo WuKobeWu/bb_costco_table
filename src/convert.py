@@ -29,6 +29,7 @@ class Convert:
         output = self._sort(output, self.args)
 
         self._make_copy(self.args)
+        self._clean_output_file(SHEET_NAME)
         # FIXME: refactor: make output & output indep, no call output reference both
         self._clear_old_row(SHEET_NAME, startrow)
         self._put_2_fs(output, self.args, SHEET_NAME, startrow)
@@ -37,13 +38,13 @@ class Convert:
         return output
     
     def _read_input(self):
-        input = pd.read_excel(self.input_path, usecols=INPUT_COL_LIST)
+        input = pd.read_excel(self.input_path, usecols=INPUT_COL_LIST, engine="calamine")
         input = input[input["Dept"] == 13]
         input.reset_index(drop=True, inplace=True)
         return input
     
     def _read_output(self, sheet_name):
-        output_all = pd.read_excel(self.output_path, header=None, sheet_name=sheet_name)
+        output_all = pd.read_excel(self.output_path, header=None, sheet_name=sheet_name, engine="calamine")
 
         idx = output_all[output_all.iloc[:, 0] == ROW_NAME].index[0]
         output = pd.read_excel(self.output_path, skiprows=idx+1, sheet_name=sheet_name, usecols=OUTPUT_COL_LIST)
@@ -82,6 +83,18 @@ class Convert:
     def _make_copy(self, args):
         shutil.copy(self.output_path, self.output_path.replace(".xlsx", "_orig.xlsx"))
         return None
+    
+    # FIXME: refactor: rewrite it 
+    def _clean_output_file(self, sheet_name):
+        # 重新读取整个 output 文件（不跳过行，以获取所有内容）
+        # 此时仍然使用 calamine 引擎来避免 openpyxl 错误
+        output_all = pd.read_excel(self.output_path, header=None, sheet_name=sheet_name, engine="calamine")
+        
+        # 将数据写回文件，这会覆盖所有内容，仅保留数据，清除样式。
+        # 注意：使用 openpyxl 引擎是为了覆盖文件，但我们没有用它来读取。
+        with pd.ExcelWriter(self.output_path, engine="openpyxl", mode="w") as writer:
+            output_all.to_excel(writer, sheet_name=sheet_name, header=False, index=False)
+        return None
 
     def date_clean_convert(self, val, yesterday):
         if pd.isna(val):
@@ -106,6 +119,7 @@ class Convert:
         wb.save(self.output_path)
         return None
     
+    # FIXME: now only 1 tab, make it all tab
     def _put_2_fs(self, output, args, sheet_name, startrow):
         with pd.ExcelWriter(
             self.output_path,
